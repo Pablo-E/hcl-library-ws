@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BookRestModel {
+public class StaffRestModel {
 	
-	private String title;
-	private String author;
-	private String publisher;
-	
+	private String name;
+	private String role;
+
 }

@@ -32,18 +32,21 @@ public class Loan {
 	@JoinColumn(name = "book")
 	private Book book;
 
-	@Column(name = "date")
-	private Date dateLoan;
-
 	@Column(name = "status")
 	private boolean status;
 
-	public Loan(User staff, User client) {
+	@Column(name = "loan_date")
+	private Date loanDate;
+	
+	@Column(name = "return_date")
+	private Date returnDate;
+
+	public Loan(User staff, User client, Book book) {
 		this.staff = staff;
 		this.client = client;
+		this.book = book;
+		this.loanDate = new Date();
 	}
-
-	public Loan() {
-	}
-
+	
+	public Loan() {}
 }

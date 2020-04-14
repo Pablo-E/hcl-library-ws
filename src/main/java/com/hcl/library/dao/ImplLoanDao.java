@@ -1,73 +1,76 @@
 package com.hcl.library.dao;
 
-import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import com.hcl.library.dao.generics.ILoanDao;
 import com.hcl.library.model.Loan;
 
 public class ImplLoanDao implements ILoanDao {
 
+	EntityManager em;
+
 	@Override
 	public void add(Loan l) {
-		
-		//look if there is stock
-		if (l.getBook().getStock() > 0) {
-			int stock = l.getBook().getStock();
-			l.getBook().setStock(stock - 1);
-			
-			l.setDateLoan(new Date());
-			l.setStatus(true);
-			
-			try {
-				em.getTransaction().begin();
-				em.persist(l);
-				em.getTransaction().commit();
-			} catch (Exception e) {
-				em.getTransaction().rollback();
-				throw (e);
-			}
-		} else {
-			System.out.println("NO STOCK");
+		try {
+			em = openConnection();
+			em.getTransaction().begin();
+			em.persist(l);
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw (e);
+		} finally {
+			em.close();
 		}
-		
-		
 	}
 
 	@Override
 	public void remove(Loan l) {
 		try {
+			em = openConnection();
 			em.getTransaction().begin();
 			em.remove(l);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			throw (e);
+		} finally {
+			em.close();
 		}
+
 	}
 
 	@Override
 	public void update(Loan l) {
 		try {
+			em = openConnection();
 			em.getTransaction().begin();
 			em.merge(l);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			throw (e);
+		} finally {
+			em.close();
 		}
+
 	}
 
 	@Override
 	public Loan findById(int id) {
 		Loan findedLoan;
 		try {
+			em = openConnection();
 			em.getTransaction().begin();
 			findedLoan = em.find(Loan.class, id);
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			throw (e);
+		} finally {
+			em.close();
 		}
 
 		return findedLoan;
@@ -79,15 +82,28 @@ public class ImplLoanDao implements ILoanDao {
 		List<Loan> loanList;
 
 		try {
+			em = openConnection();
 			em.getTransaction().begin();
 			loanList = em.createQuery("SELECT l FROM Loan l", Loan.class).getResultList();
 			em.getTransaction().commit();
 		} catch (Exception e) {
 			em.getTransaction().rollback();
 			throw (e);
+		} finally {
+			em.close();
 		}
-		
+
 		return loanList;
+	}
+
+	@Override
+	public EntityManager openConnection() {
+		if (em == null) {
+			em = emf.createEntityManager();
+			return em;
+		} else {
+			return em;
+		}
 	}
 
 }
