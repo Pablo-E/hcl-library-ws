@@ -1,11 +1,11 @@
-package com.hcl.library.app.ws.ui.model.request;
+package com.hcl.library.app.ws.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateBookRequestModel {
+public class BookDTO {
 	
 	private String isbn;
 	private String title;
@@ -13,8 +13,9 @@ public class CreateBookRequestModel {
 	private String publisher;
 	private String genre;
 	private int stock;
+	
 	private String nameAuthor;
 	private String lastNameAuthor;
 	private String nationality;
-	
+
 }

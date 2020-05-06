@@ -136,4 +136,24 @@ public class ImplUserDao implements IUserDao {
 			return em;			
 		}
 	}
+
+	@Override
+	public List<User> findAllClients() {
+		
+		List<User> clientList;
+
+		try {
+			em = openConnection();
+			em.getTransaction().begin();
+			clientList = em.createQuery("SELECT u FROM User u WHERE u.role = 'CLIENT'", User.class).getResultList();
+			em.getTransaction().commit();
+		} catch (Exception e) {
+			em.getTransaction().rollback();
+			throw (e);
+		} finally {
+			em.close();
+		}
+
+		return clientList;
+	}
 }

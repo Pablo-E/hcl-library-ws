@@ -1,4 +1,4 @@
-package com.hcl.library.app.ws.ui.model.request;
+package com.hcl.library.app.ws.model.request;
 
 import lombok.Getter;
 import lombok.Setter;

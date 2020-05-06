@@ -9,6 +9,8 @@ public interface IUserDao extends IGenericDao <User> {
 	
 	public User findById(int id);
 	
+	public List<User> findAllClients();
+	
 	public List<Loan> loans(User u);
 
 }

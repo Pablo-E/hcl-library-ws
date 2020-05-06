@@ -87,7 +87,6 @@ public class ImplBookDao implements IBookDao {
 	@Override
 	public List<Book> findAll() {
 		
-		
 		List<Book> bookList;
 
 		try {
